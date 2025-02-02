@@ -1,0 +1,38 @@
+name: Serve pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+    - name: prepare the serve pod
+      run: |
+        cd serve
+        docker build . --file Dockerfile --tag ghcr.io/${{github.repository}}/serve:latest
+    - name: Log in to the Container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push the Docker image
+      run: docker push ghcr.io/${{github.repository}}/serve:latest
+    - name: Deploy Helm
+      run: helm upgrade --namespace ml-namespace -f ./deploy/values.yaml ml-model test-ira/ --install
+    
