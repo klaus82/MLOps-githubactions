@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: train the model
-      run: |
-        cd data
-        docker build . --file Dockerfile --tag klaus82/mlops-githubaction-model:${{ github.ref_name }}
+    # - uses: actions/checkout@v3
+    # - name: train the model
+    #   run: |
+    #     cd data
+    #     docker build . --file Dockerfile --tag klaus82/mlops-githubaction-model:${{ github.ref_name }}
     # - name: Log in to the Container registry
     #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
     #   with:
@@ -25,3 +25,22 @@ jobs:
     #     password: ${{ secrets.GITHUB_TOKEN }}
     # - name: Push the Docker image
     #   run: docker push ghcr.io/${{github.repository}}/model:$TAG
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build image and push to Docker Hub
+      uses: docker/build-push-action@v2
+      with:
+        context: "{{defaultContext}}:data"
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mlops-githubaction-model:${{ github.ref_name }}
