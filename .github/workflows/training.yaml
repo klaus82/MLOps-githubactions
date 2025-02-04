@@ -16,7 +16,7 @@ jobs:
     - name: train the model
       run: |
         cd data
-        docker build . --file Dockerfile --tag ghcr.io/${{github.repository}}/model:$TAG
+        docker build . --file Dockerfile --tag ghcr.io/${{github.repository}}/model:${{  github.ref_name }}
     # - name: Log in to the Container registry
     #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
     #   with:
