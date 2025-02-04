@@ -3,7 +3,7 @@ name: Training pipeline
 on:
   push:
     tags:
-      - 'model-*'
+      - 'v*'
 
 jobs:
 
