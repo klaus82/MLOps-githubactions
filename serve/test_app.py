@@ -25,7 +25,7 @@ test_client = TestClient(app)
 
 @pytest.fixture
 def mock_model_and_vectorizer():
-    with patch("main.ml_models", {"model": MagicMock(), "vectorizer": MagicMock()}) as mock_ml_models:
+    with patch("app.ml_models", {"model": MagicMock(), "vectorizer": MagicMock()}) as mock_ml_models:
         mock_ml_models["vectorizer"].transform.return_value = [[0.1, 0.2, 0.3]]
         mock_ml_models["model"].predict.return_value = [1]
         yield mock_ml_models
