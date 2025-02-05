@@ -19,7 +19,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import patch, MagicMock
-from main import app, predict_sentiment, clean_text
+from .app import app, predict_sentiment, clean_text
 
 test_client = TestClient(app)
 
