@@ -7,19 +7,33 @@ import nltk
 from nltk.corpus import stopwords
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
+from contextlib import asynccontextmanager
+import os
 
 # Download stopwords
 nltk.download('stopwords')
 
+ml_models = {}
+
+@asynccontextmanager
+async def lifespan(app:FastAPI):
+    model_path = os.environ.get("MODEL_PATH", "./sentiment_model.pkl")
+    vectorizer_path = os.environ.get("VECTORIZER_PATH", "./tfidf_vectorizer.pkl")
+    ml_models["model"] = joblib.load(model_path)
+    ml_models["vectorizer"] = joblib.load(vectorizer_path)
+    yield
+
+    ml_models.clear()
+
 # Initialize FastAPI app
-app = FastAPI()
+app = FastAPI(title="Sentiment ML API", description="API to predict sentiment", version="1.0",lifespan=lifespan)
 
-# Load the trained model and vectorizer (Save them after training)
-MODEL_PATH = "sentiment_model.pkl"
-VECTORIZER_PATH = "tfidf_vectorizer.pkl"
+# # Load the trained model and vectorizer (Save them after training)
+# MODEL_PATH = "sentiment_model.pkl"
+# VECTORIZER_PATH = "tfidf_vectorizer.pkl"
 
-clf = joblib.load(MODEL_PATH)  # Load the trained model
-vectorizer = joblib.load(VECTORIZER_PATH)  # Load the vectorizer
+# clf = joblib.load(MODEL_PATH)  # Load the trained model
+# vectorizer = joblib.load(VECTORIZER_PATH)  # Load the vectorizer
 
 # Function to clean text (same as before)
 def clean_text(text):
@@ -37,13 +51,17 @@ class TextInput(BaseModel):
 # Define a sentiment prediction function
 def predict_sentiment(text):
     cleaned_text = clean_text(text)
-    transformed_text = vectorizer.transform([cleaned_text])  # Convert to TF-IDF
-    prediction = clf.predict(transformed_text)[0]  # Make prediction
+    transformed_text = ml_models["vectorizer"].transform([cleaned_text])  # Convert to TF-IDF
+    prediction = ml_models["model"].predict(transformed_text)[0]  # Make prediction
     sentiment_mapping_reverse = {1: "positive", 0: "neutral", -1: "negative"}
     return sentiment_mapping_reverse[prediction]
 
 # Define FastAPI endpoint
 @app.post("/predict")
-def predict(input_data: TextInput):
+async def predict(input_data: TextInput):
     sentiment = predict_sentiment(input_data.text)
     return {"text": input_data.text, "predicted_sentiment": sentiment}
+
+@app.get("/")
+async def root():
+    return {"message":"I'm alive"}

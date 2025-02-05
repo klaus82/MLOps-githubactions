@@ -2,11 +2,8 @@ name: Serve pipeline
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    tags:
+      - 'serve*'
 
 env:
     REGISTRY: ghcr.io
