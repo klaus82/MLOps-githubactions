@@ -19,7 +19,9 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Build Docker Image
-      run: docker build -f Dockerfile_test -t fastapi-tests .
+      run: |
+          cd serve
+          docker build -f Dockerfile_test -t fastapi-tests .
 
     - name: Run Tests
       run: docker run --rm fastapi-tests
