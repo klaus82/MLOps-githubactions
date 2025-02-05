@@ -1,7 +1,5 @@
 FROM python:3.10.14-slim
 
-ENV MODEL_PATH /model/model.dat.gz
-
 WORKDIR app
 
 COPY requirements.txt app.py ./
