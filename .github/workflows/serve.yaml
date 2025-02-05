@@ -3,7 +3,7 @@ name: Serve pipeline
 on:
   push:
     tags:
-      - 'serve*'
+      - 's*'
 
 env:
     REGISTRY: ghcr.io
@@ -12,24 +12,26 @@ env:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the repo
-      uses: actions/checkout@v3
-    - name: prepare the serve pod
-      run: |
-        cd serve
-        docker build . --file Dockerfile --tag ghcr.io/${{github.repository}}/serve:latest
-    - name: Log in to the Container registry
-      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Push the Docker image
-      run: docker push ghcr.io/${{github.repository}}/serve:latest
-    - name: Deploy Helm
-      run: helm upgrade --namespace ml-namespace -f ./deploy/values.yaml ml-model test-ira/ --install
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build image and push to Docker Hub
+      uses: docker/build-push-action@v2
+      with:
+        context: "{{defaultContext}}:serve"
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mlops-githubaction-serve:${{ github.ref_name }}
     
