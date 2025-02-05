@@ -17,6 +17,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    
+    - name: Build Docker Image
+      run: docker build -f Dockerfile_test -t fastapi-tests .
+
+    - name: Run Tests
+      run: docker run --rm fastapi-tests
 
     - name: Set up Docker Buildx
       id: buildx

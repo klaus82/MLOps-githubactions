@@ -1,0 +1,17 @@
+FROM python:3.10.14-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt -r requirements-test.txt
+
+# Copy the application files
+COPY . .
+
+# Install test dependencies
+RUN pip install --no-cache-dir pytest httpx
+
+# Command to run tests
+CMD ["pytest", "-v"]
