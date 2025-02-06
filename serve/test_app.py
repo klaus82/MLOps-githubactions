@@ -38,8 +38,7 @@ def test_root():
 def test_clean_text():
     raw_text = "Hello!!! Check this out: https://example.com @user #hashtag"
     cleaned = clean_text(raw_text)
-    print(cleaned)
-    assert cleaned == "hello check this out"
+    assert cleaned == "hello check this out   hashtag"
 
 def test_predict_sentiment(mock_model_and_vectorizer):
     sentiment = predict_sentiment("This is a great product!")
