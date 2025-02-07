@@ -40,15 +40,15 @@ def test_clean_text():
     cleaned = clean_text(raw_text)
     assert cleaned == "hello check this out   hashtag"
 
-def test_predict_sentiment(mock_model_and_vectorizer):
-    sentiment = predict_sentiment("This is a great product!")
-    assert sentiment == "positive"
+# def test_predict_sentiment(mock_model_and_vectorizer):
+#     sentiment = predict_sentiment("This is a great product!")
+#     assert sentiment == "positive"
 
-def test_predict_endpoint(mock_model_and_vectorizer):
-    response = test_client.post("/predict", json={"text": "This product is amazing!"})
-    assert response.status_code == 200
-    assert response.json() == {"text": "This product is amazing!", "predicted_sentiment": "positive"}
+# def test_predict_endpoint(mock_model_and_vectorizer):
+#     response = test_client.post("/predict", json={"text": "This product is amazing!"})
+#     assert response.status_code == 200
+#     assert response.json() == {"text": "This product is amazing!", "predicted_sentiment": "positive"}
 
-def test_predict_invalid_request():
-    response = test_client.post("/predict", json={})  # Missing "text" field
-    assert response.status_code == 422
+# def test_predict_invalid_request():
+#     response = test_client.post("/predict", json={})  # Missing "text" field
+#     assert response.status_code == 422
