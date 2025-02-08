@@ -30,3 +30,9 @@ template:
         value: "{{ .Values.env.VECTORIZER_PATH }}"
       resources:
         {{- toYaml .Values.resources | nindent 8 }}
+      volumeMounts:
+      - name: models
+        mountPath: /models
+    volumes:
+    - name: models
+      emptyDir: {}
