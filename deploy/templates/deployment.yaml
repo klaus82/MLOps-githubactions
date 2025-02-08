@@ -3,40 +3,41 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sentiment-app
-template:
-  metadata:
-    labels:
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
       app: sentiment-app
-  spec:
-    replicas: {{ .Values.replicaCount }}
-    selector:
-      matchLabels:
+  template:
+    metadata:
+      labels:
         app: sentiment-app
-    initContainers:
-    - name: download-model
-      image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
-      args:
-        - cp
-        - /*.pkl
-        - /models/*.pkl
-      volumeMounts:
+    spec:
+      initContainers:
+      - name: download-model
+        image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
+        args:
+          - cp
+          - /*.pkl
+          - /models/*.pkl
+        volumeMounts:
+        - name: models
+          mountPath: /models
+      containers:
+      - name: sentiment
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 80
+        env:
+        - name: MODEL_PATH
+          value: "{{ .Values.env.MODEL_PATH }}"
+        - name: VECTORIZER_PATH
+          value: "{{ .Values.env.VECTORIZER_PATH }}"
+        resources:
+          {{- toYaml .Values.resources | nindent 8 }}
+        volumeMounts:
+        - name: models
+          mountPath: /models
+      volumes:
       - name: models
-        mountPath: /models
-    containers:
-    - name: sentiment
-      image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-      ports:
-      - containerPort: 80
-      env:
-      - name: MODEL_PATH
-        value: "{{ .Values.env.MODEL_PATH }}"
-      - name: VECTORIZER_PATH
-        value: "{{ .Values.env.VECTORIZER_PATH }}"
-      resources:
-        {{- toYaml .Values.resources | nindent 8 }}
-      volumeMounts:
-      - name: models
-        mountPath: /models
-    volumes:
-    - name: models
-      emptyDir: {}
+        emptyDir: {}
