@@ -16,8 +16,8 @@ template:
         - /*.pkl
         - /models/*.pkl
       volumeMounts:
-      - name: model
-        mountPath: /model
+      - name: models
+        mountPath: /models
     containers:
     - name: sentiment
       image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
