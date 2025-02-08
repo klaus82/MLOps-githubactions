@@ -17,9 +17,7 @@ spec:
       - name: download-model
         image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
         args:
-          - cp
-          - ./sentiment_model.pkl ./tfidf_vectorizer.pkl
-          - /models
+          - ls -la
         volumeMounts:
         - name: models
           mountPath: /models
