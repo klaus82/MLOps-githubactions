@@ -3,12 +3,12 @@ replicaCount: 2
 
 image:
   repository: klaus82/mlops-githubaction-serve
-  tag: latest
+  tag: s9
   pullPolicy: IfNotPresent
 
 initContainers:
   repository: klaus82/mlops-githubaction-model
-  tag: latest
+  tag: v6
   pullPolicy: IfNotPresent
 
 service:
