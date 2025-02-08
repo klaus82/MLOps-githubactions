@@ -8,6 +8,10 @@ template:
     labels:
       app: sentiment-app
   spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+      matchLabels:
+        app: sentiment-app
     initContainers:
     - name: download-model
       image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
