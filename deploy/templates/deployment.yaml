@@ -17,7 +17,9 @@ spec:
       - name: download-model
         image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
         args:
-          - ls -la
+          - cp
+          - sentiment_model.pkl
+          - /models
         volumeMounts:
         - name: models
           mountPath: /models
