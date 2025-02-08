@@ -18,8 +18,8 @@ spec:
         image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
         args:
           - cp
-          - /*.pkl
-          - /models/*.pkl
+          - sentiment_model.pkl vectorizer.pkl
+          - /models
         volumeMounts:
         - name: models
           mountPath: /models
