@@ -1,0 +1,13 @@
+# templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentiment-app
+spec:
+  selector:
+    app: sentiment-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: {{ .Values.service.type }}

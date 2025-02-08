@@ -1,0 +1,32 @@
+# values.yaml
+replicaCount: 2
+
+image:
+  repository: klaus82/mlops-githubaction-serve
+  tag: latest
+  pullPolicy: IfNotPresent
+
+initContainers:
+  repository: klaus82/mlops-githubaction-model
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  host: fastapi.example.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  MODEL_PATH: "/models/sentiment_model.pkl"
+  VECTORIZER_PATH: "/models/tfidf_vectorizer.pkl"
