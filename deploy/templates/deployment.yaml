@@ -18,7 +18,7 @@ spec:
         image: "{{ .Values.initContainers.repository }}:{{ .Values.initContainers.tag }}"
         args:
           - cp
-          - sentiment_model.pkl tfidf_vectorizer.pkl
+          - ./sentiment_model.pkl ./tfidf_vectorizer.pkl
           - /models
         volumeMounts:
         - name: models
