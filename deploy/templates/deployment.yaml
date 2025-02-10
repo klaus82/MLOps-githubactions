@@ -28,7 +28,7 @@ spec:
       - name: sentiment
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         env:
         - name: MODEL_PATH
           value: "{{ .Values.env.MODEL_PATH }}"
