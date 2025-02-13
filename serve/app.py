@@ -28,13 +28,6 @@ async def lifespan(app:FastAPI):
 # Initialize FastAPI app
 app = FastAPI(title="Sentiment ML API", description="API to predict sentiment", version="1.0",lifespan=lifespan)
 
-# # Load the trained model and vectorizer (Save them after training)
-# MODEL_PATH = "sentiment_model.pkl"
-# VECTORIZER_PATH = "tfidf_vectorizer.pkl"
-
-# clf = joblib.load(MODEL_PATH)  # Load the trained model
-# vectorizer = joblib.load(VECTORIZER_PATH)  # Load the vectorizer
-
 # Function to clean text (same as before)
 def clean_text(text):
     text = text.lower()
