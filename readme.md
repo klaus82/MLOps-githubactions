@@ -7,8 +7,8 @@ This repository demonstrates how to implement workflows for continuous integrati
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Testing](#testing)
+- [Test environment](#test-environment)
 
 ## Introduction
 MLOps (Machine Learning Operations) is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently. This project showcases how to leverage GitHub Actions to automate the MLOps pipeline.
