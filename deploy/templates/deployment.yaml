@@ -35,7 +35,12 @@ spec:
         - name: VECTORIZER_PATH
           value: "{{ .Values.env.VECTORIZER_PATH }}"
         resources:
-          {{- toYaml .Values.resources | nindent 8 }}
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         volumeMounts:
         - name: models
           mountPath: /models
