@@ -36,11 +36,11 @@ spec:
           value: "{{ .Values.env.VECTORIZER_PATH }}"
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "250m"
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
         volumeMounts:
         - name: models
           mountPath: /models

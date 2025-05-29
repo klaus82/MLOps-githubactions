@@ -22,10 +22,10 @@ ingress:
 resources:
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 128Mi
   requests:
-    cpu: 125m
-    memory: 256Mi
+    cpu: 250m
+    memory: 64Mi
 
 env:
   MODEL_PATH: "/models/sentiment_model.pkl"
