@@ -18,7 +18,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Build Docker Image
+    - name: Build Docker Image for tests
       run: |
           cd serve
           docker build -f Dockerfile_test -t fastapi-tests .

@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: klaus82/mlops-githubaction-serve
-  tag: s12
+  tag: s13
   pullPolicy: IfNotPresent
 
 initContainers:
