@@ -8,7 +8,7 @@ image:
 
 initContainers:
   repository: klaus82/mlops-githubaction-model
-  tag: t1
+  tag: t3
   pullPolicy: IfNotPresent
 
 service:
